@@ -1,4 +1,4 @@
-var Ffmpeg = require('../lib'),
+var Ffmpeg = require('../'),
   path = require('path'),
   fs = require('fs'),
   assert = require('assert'),
@@ -33,7 +33,7 @@ describe('Processor', function() {
         .usingPreset('flashvideo')
         .renice(19)
         .saveToFile(testFile, function(code, err) {
-          code.should.equal(-99);
+          code.should.equal(-99, err);
           path.exists(testFile, function(exist) {
             if (exist) {
               fs.unlinkSync(testFile);
@@ -91,7 +91,7 @@ describe('Processor', function() {
         count: 2,
         timemarks: [ '0.5', '1' ]
       }, testFolder, function(err) {
-        assert.ok(!err);
+        assert.ok(!err, err);
         fs.readdir(testFolder, function(err, files) {
           var tnCount = 0;
           files.forEach(function(file) {
@@ -115,7 +115,7 @@ describe('Processor', function() {
         .usingPreset('flashvideo')
         .renice(19)
         .saveToFile(testFile, function(stdout, stderr, err) {
-          assert.ok(!err);
+          assert.ok(!err, err);
           path.exists(testFile, function(exist) {
             exist.should.true;
             // check filesize to make sure conversion actually worked
@@ -137,7 +137,7 @@ describe('Processor', function() {
         .usingPreset('flashvideo')
         .renice(19)
         .saveToFile(testFile, function(stdout, stderr, err) {
-          assert.ok(!err);
+          assert.ok(!err, err);
           path.exists(testFile, function(exist) {
             exist.should.true;
             // check filesize to make sure conversion actually worked

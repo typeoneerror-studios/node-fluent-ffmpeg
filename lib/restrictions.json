@@ -1,0 +1,10 @@
+{
+  "streaming": {
+    "block_input": [
+      "mov"
+    ],
+    "block_output": [
+      "mp4"
+    ]
+  }
+}
