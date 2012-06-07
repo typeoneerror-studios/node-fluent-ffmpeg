@@ -198,5 +198,26 @@ describe('Processor', function() {
           });
         });
     });
+
+    it('should fail when a restricted output format is selected', function(done) {
+      var testFile = __dirname + '/assets/testConvertToRestrictedStream.mp4';
+      var instream = fs.createReadStream(this.testfile);
+      var outstream = fs.createWriteStream(testFile);
+      new Ffmpeg({ source: instream, nolog: true })
+        .toFormat('mp4')
+        .renice(19)
+        .writeToStream(outstream, function(code, err) {
+          assert.ok(err);
+          err.message.indexOf('restriction check not passed').should.above(-1);
+          path.exists(testFile, function(exist) {
+            exist.should.true;
+            fs.stat(testFile, function(err, stats) {
+              // unlink file
+              fs.unlinkSync(testFile);
+              done();
+            });
+          });
+        });
+    });
   });
 });
